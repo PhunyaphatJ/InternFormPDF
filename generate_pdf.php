@@ -3,6 +3,12 @@
 include('fpdf/fpdf.php');
 mb_internal_encoding("UTF-8");
 
+if ($_SERVER["REQUEST_METHOD"]=="POST"){
+	$name = htmlspecialchars($_POST['name']);
+	$id = htmlspecialchars($_POST['id']);
+	$address = htmlspecialchars($_POST['address']);
+}
+
 
 class PDF extends FPDF{
 
@@ -52,8 +58,8 @@ class Company{
 	}
 }
 
-$student = new Student('นายสมชาย ใจดี', '1234567890','123 หมู่ 1 ต.หนองหิน อ.เมือง จ.เชียงใหม่ 50000','0812345678');
-$company = new Company('บริษัท สมหมาย จำกัด', '456 หมู่ 2 ต.หนองหิน อ.เมือง จ.เชียงใหม่ 50000','0812345678','053123456');
+$student = new Student($name, $id,$address,'0812345678');
+$company = new Company('บริษัท Perfect Solution จำกัด', $address,'088888888','0777777777');
 $pdf = new PDF('P','mm','A4');
 
 $pdf->AddFont('THSarabun','','THSarabunNew.php');
@@ -93,23 +99,23 @@ $pdf->Cell(20,$heightCell,iconv('utf-8','cp874','เรียน หัวหน
 $pdf->SetX($x+$space);
 //Input ข้อมูลนักศึกษา
 $pdf->SetFont('THSarabun','b',16);
-$pdf->Text($x+50,$pdf->GetY()+$heightInput,iconv('utf-8','cp874',$student->name),0,1,'L');
-$pdf->Text($x+135,$pdf->GetY()+$heightInput,iconv('utf-8','cp874',$student->id),0,1,'L');
+$pdf->Text($x+50,$pdf->GetY()+$heightInput,iconv('utf-8','cp874',$student->name),0,1,'L'); //<--Student Name
+$pdf->Text($x+135,$pdf->GetY()+$heightInput,iconv('utf-8','cp874',$student->id),0,1,'L');// <--Student ID
 $pdf->SetFont('THSarabun','',16);
 $pdf->Cell(20,$heightCell,iconv('utf-8','cp874','ข้าพเจ้า(ชื่อ-สกุล)...........................................................................รหัสประจำตัว.........................................'),0,1,'L');
-$pdf->Text($x+35,$pdf->GetY()+$heightInput,iconv('utf-8','cp874',$student->address),0,1,'L');
+$pdf->Text($x+15,$pdf->GetY()+$heightInput,iconv('utf-8','cp874',$student->address),0,1,'L');//<<--Student Address
 $pdf->Cell(20,$heightCell,iconv('utf-8','cp874','ที่อยู่..............................................................................................................................................................................'),0,1,'L');
-$pdf->Text($x+130,$pdf->GetY()+$heightInput,iconv('utf-8','cp874',$student->phone),0,1,'L');
+$pdf->Text($x+130,$pdf->GetY()+$heightInput,iconv('utf-8','cp874',$student->phone),0,1,'L');//<<--Student Phone
 $pdf->Cell(20,$heightCell,iconv('utf-8','cp874','................................................................................................................เบอร์โทรศัพท์...............................................'),0,1,'L');
 $pdf->Cell(20,$heightCell,iconv('utf-8','cp874','มีความประสงค์จะขอหนังสือส่งตัวนักศึกษาไปฝึกงาน เพื่อประกอบการเรียน โดยรายละเอียดดังนี้'),0,1,'L');
 $pdf->SetX($x+$space);
 //Input ข้อมูลสถานที่ฝึกงาน
-$pdf->Text($x+70,$pdf->GetY()+$heightInput,iconv('utf-8','cp874',$company->name),0,1,'L');
+$pdf->Text($x+70,$pdf->GetY()+$heightInput,iconv('utf-8','cp874',$company->name),0,1,'L');//<<--Company Name
 $pdf->Cell(20,$heightCell,iconv('utf-8','cp874','1.สถานที่ฝึกงาน (ชื่อ-ที่อยู่)...........................................................................................................................'),0,1,'L');
-$pdf->Text($x+20,$pdf->GetY()+$heightInput,iconv('utf-8','cp874',$company->address),0,1,'L');
+$pdf->Text($x+20,$pdf->GetY()+$heightInput,iconv('utf-8','cp874',$company->address),0,1,'L');//<<--Company Address
 $pdf->Cell(20,$heightCell,iconv('utf-8','cp874','.....................................................................................................................................................................................'),0,1,'L');
-$pdf->Text($x+30,$pdf->GetY()+$heightInput,iconv('utf-8','cp874',$company->phone),0,1,'L');
-$pdf->Text($x+120,$pdf->GetY()+$heightInput,iconv('utf-8','cp874',$company->fax),0,1,'L');
+$pdf->Text($x+30,$pdf->GetY()+$heightInput,iconv('utf-8','cp874',$company->phone),0,1,'L');//<<--Company Phone
+$pdf->Text($x+120,$pdf->GetY()+$heightInput,iconv('utf-8','cp874',$company->fax),0,1,'L');//<<--Company Fax
 $pdf->Cell(20,$heightCell,iconv('utf-8','cp874','เบอร์โทรศัพท์...............................................................เบอร์โทรสาร(Fax).....................................................'),0,1,'L');
 $pdf->SetX($x+$space);
 $pdf->Cell(20,$heightCell,iconv('utf-8','cp874','2.หนังสือส่งตัวฝึกงานให้ส่งถึง (เรียน..............................................................................................................)'),0,1,'L');
