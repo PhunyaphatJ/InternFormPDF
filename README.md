@@ -1,6 +1,7 @@
 # Intern Form To PDF
 
-### * NEED XAMMP
+### * NEED XAMMP <br/>
+### * Mysql <br/>
 
 ## How to Open 
 1 clone this project to xampp/htocs <br/>
