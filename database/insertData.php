@@ -12,4 +12,5 @@
     $stmt = $conn->prepare($sql);
     $stmt->execute(['id'=>$id,'name'=>$name,'phone'=>$phone,'address'=>$address]);
     $conn = null;
+    header('location:../students.php');
 ?>
