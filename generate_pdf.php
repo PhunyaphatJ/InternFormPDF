@@ -1,13 +1,20 @@
 <?php
 // define('FPDF_FONTPATH','fpdf/fonts/');
 include('fpdf/fpdf.php');
+require 'database/db_connection.php';
 mb_internal_encoding("UTF-8");
+ob_start();
+
 
 if ($_SERVER["REQUEST_METHOD"]=="POST"){
-	$name = htmlspecialchars($_POST['name']);
-	$id = htmlspecialchars($_POST['id']);
-	$address = htmlspecialchars($_POST['address']);
+	$id = $_POST['id'];
 }
+
+$sql = "SELECT * FROM student WHERE id = :id";
+$stmt = $conn->prepare($sql);
+$stmt->execute(['id' => $id]);
+$data = $stmt->fetch(PDO::FETCH_ASSOC);
+$conn = null;
 
 
 class PDF extends FPDF{
@@ -58,8 +65,8 @@ class Company{
 	}
 }
 
-$student = new Student($name, $id,$address,'0812345678');
-$company = new Company('บริษัท Perfect Solution จำกัด', $address,'088888888','0777777777');
+$student = new Student($data['name'], $data['id'],$data['address'],$data['phone']);
+$company = new Company('บริษัท Perfect Solution จำกัด', $data['address'],'088888888','0777777777');
 $pdf = new PDF('P','mm','A4');
 
 $pdf->AddFont('THSarabun','','THSarabunNew.php');
@@ -178,4 +185,9 @@ $pdf->Cell(20,$heightCell-2,iconv('utf-8','cp874','COS3101 (Job Training) ฝึ
 $pdf->SetX($x+2);
 $pdf->Cell(20,$heightCell-2,iconv('utf-8','cp874','INT4107 (Job Training) ฝึกงานทางเทคโนโลยีสารสนเทศ สำหรับนักศึกษารหัส 55 เป็นต้นไป'),0,1,'L');
 $pdf->Output();
+
+
+
+
+$conn = null;
 ?>
