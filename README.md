@@ -8,5 +8,5 @@
 2 start Apache and mysql in Xampp <br/>
 3 Open  Cmd cd c:\xampp\htdocs\internformpdf\database <br/>
 4 use this command php .\create_database.php to create database and table <br/>
-2 Open localhost/internformpdf/index.html in chrome <br/>
+5 Open localhost/internformpdf/index.html in chrome <br/>
 
